@@ -1,3 +1,4 @@
+NB. graphview_win - graphviz for windows
 
 coclass 'pgraphview'
 

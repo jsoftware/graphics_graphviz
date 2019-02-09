@@ -1,3 +1,4 @@
+NB. graphview_linux - graphviz for linux
 
 coclass 'pgraphview'
 
