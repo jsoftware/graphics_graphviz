@@ -17,7 +17,7 @@ FOLDER=: graphics/graphviz
 
 VERSION=: '2.0.0'
 
-RELEASE=: 'j807'
+RELEASE=: 'j804 j805 j806 j807'
 
 PLATFORMS=: 'win linux'
 
