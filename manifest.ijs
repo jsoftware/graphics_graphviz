@@ -13,7 +13,7 @@ Based on Graphviz from http://www.graphviz.org/
 Copyright 2006 (C) Oleg Kobchenko
 )
 
-FOLDER=: graphics/graphviz
+FOLDER=: 'graphics/graphviz'
 
 VERSION=: '2.0.0'
 
