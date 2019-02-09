@@ -26,6 +26,7 @@ about.html
 attrs.txt
 graphview.ijs
 graphviewx.ijs
+graphviz.ijs
 help.html
 history.txt
 license.html
