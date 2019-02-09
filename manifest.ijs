@@ -151,7 +151,7 @@ fonts\conf.d\65-fonts-persian.conf
 fonts\conf.d\65-nonlatin.conf         
 fonts\conf.d\69-unifont.conf          
 fonts\conf.d\80-delicious.conf        
-fonts\conf.d\90-synthetic.con
+fonts\conf.d\90-synthetic.conf
 graphs\directed\abstract.gv    
 graphs\directed\alf.gv         
 graphs\directed\arrows.gif     
