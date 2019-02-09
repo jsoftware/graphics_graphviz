@@ -108,8 +108,8 @@ doc\seq_lab-8.png
 doc\seq_lab.html     
 doc\seq_lab.pdf      
 doc\smlegend.gif  
-fonts\conf.avail
-fonts\conf.d    
+fonts\conf.avail\
+fonts\conf.d\    
 fonts\fonts.conf
 fonts\fonts.dtd 
 fonts\conf.avail\10-autohint.conf         
