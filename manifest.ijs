@@ -15,7 +15,7 @@ Copyright 2006 (C) Oleg Kobchenko
 
 FOLDER=: 'graphics/graphviz'
 
-VERSION=: '2.0.3'
+VERSION=: '2.0.4'
 
 RELEASE=: 'j804 j805 j806 j807'
 
@@ -107,9 +107,7 @@ doc/seq_lab-7.png
 doc/seq_lab-8.png    
 doc/seq_lab.html     
 doc/seq_lab.pdf      
-doc/smlegend.gif  
-fonts/conf.avail/
-fonts/conf.d/    
+doc/smlegend.gif   
 fonts/fonts.conf
 fonts/fonts.dtd 
 fonts/conf.avail/10-autohint.conf         
