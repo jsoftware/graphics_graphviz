@@ -65,6 +65,25 @@ fix00=: 3 : 0
 )
 
 graphviz_run=: 3 : 0
+  if. 0=fexist jpath '~addons/graphics/graphviz/bin/dot.exe' do.
+   wdinfo 'Downloading graphviz.  This will take a few minutes.'
+   q=.jpath '~tools/ftp/wget.exe'
+   p=.'-P "',(jpath'~temp'),'"'
+   if. 1=#dir jpath'~temp/graphviz-2.38.zip' do. 1!:55 <jpath '~temp/graphviz-2.38.zip' end.
+   r=.spawn_jtask_ q,' ',p,' ','"http://graphviz.gitlab.io/_pages/Download/windows/graphviz-2.38.zip"'
+   res=.'saved [51904518/51904518]'
+   if. 0=+/res E.r do.
+    msgs_base_=:r
+    wdinfo 'doanload failed.  see msgs_base_'
+    return. _1
+   end.
+   spawn_jtask_ 'powershell.exe -nologo -noprofile -command "& { Add-Type -A ''System.IO.Compression.FileSystem''; [IO.Compression.ZipFile]::ExtractToDirectory(''',( jpath '~temp/graphviz-2.38.zip'),''', ''',(jpath '~temp/gv'),'''); }"'
+   MoveFile=: 'kernel32 MoveFileA i *c *c'&(15!:0)
+   if. 1<:#dir jpath'~addons/graphics/graphviz/bin' do. spawn_jtask_ 'powershell.exe -nologo -noprofile -command " Remove-Item -Recurse -Force "',(jpath'~addons/graphics/graphviz/bin/'),'""' end.
+   MoveFile=: 'kernel32 MoveFileA i *c *c'&(15!:0)
+   MoveFile (jpath '~temp/gv/release/bin');(jpath '~addons/graphics/graphviz/bin')
+   spawn_jtask_ 'powershell.exe -nologo -noprofile -command " Remove-Item -Recurse -Force "',(jpath'~temp/gv/'),'""'
+  end.
   graphviz ''
   navigate 'data:,blank'
   SRCNAME=: ''
