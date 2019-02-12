@@ -115,29 +115,11 @@ fix00=: 3 : 0
 )
 
 graphviz_run=: 3 : 0
-if. 0=fexist jpath '~addons/graphics/graphviz/bin/dot.exe' do.
-  wdinfo 'Downloading graphviz.  This will take a few minutes.'
-  q=. jpath '~tools/ftp/wget.exe'
-  p=. '-P "',(jpath'~temp'),'"'
-  if. 1=#dir jpath'~temp/graphviz-2.38.zip' do. 1!:55 <jpath '~temp/graphviz-2.38.zip' end.
-  r=. spawn_jtask_ q,' ',p,' ','"http://graphviz.gitlab.io/_pages/Download/windows/graphviz-2.38.zip"'
-  res=. 'saved [51904518/51904518]'
-  if. 0=+/res E.r do.
-    msgs_base_=: r
-    wdinfo 'doanload failed.  see msgs_base_'
-    return. _1
-  end.
-  spawn_jtask_ 'powershell.exe -nologo -noprofile -command "& { Add-Type -A ''System.IO.Compression.FileSystem''; [IO.Compression.ZipFile]::ExtractToDirectory(''',( jpath '~temp/graphviz-2.38.zip'),''', ''',(jpath '~temp/gv'),'''); }"'
-  MoveFile=: 'kernel32 MoveFileA i *c *c'&(15!:0)
-  if. 1<:#dir jpath'~addons/graphics/graphviz/bin' do. spawn_jtask_ 'powershell.exe -nologo -noprofile -command " Remove-Item -Recurse -Force "',(jpath'~addons/graphics/graphviz/bin/'),'""' end.
-  MoveFile=: 'kernel32 MoveFileA i *c *c'&(15!:0)
-  MoveFile (jpath '~temp/gv/release/bin');(jpath '~addons/graphics/graphviz/bin')
-  spawn_jtask_ 'powershell.exe -nologo -noprofile -command " Remove-Item -Recurse -Force "',(jpath'~temp/gv/'),'""'
-end.
+if. 0=checklibrary'' do. return. end.
 graphviz ''
 navigate 'data:,blank'
 SRCNAME=: ''
-if. LF e.y do. setshow y else. load jpath y end.
+if. LF e.y do. setshow y else. loader jpath y end.
 wd 'pshow;'
 )
 
@@ -205,7 +187,7 @@ graphview''
 graphviz_open_button=: 3 : 0
 fname=. wd'mb open1 "Open Graph File" "',OLDDIR,'" "',FILTER,'"'
 if. *#fname do.
-  load fname
+  loader fname
   OLDDIR=: (( ]i:&PATHSEP){. ])fname
 end.
 )
@@ -283,8 +265,79 @@ end.
 if. 0=fexist fname do. error 'Nothing is generated' return. end.
 navigate 'file:///',fname
 )
+
+NB. =========================================================
+checklibrary=: 3 : 0
+if. -.IFWIN do. 1 return. end.
+if. fexist '~addons/graphics/graphviz/bin/gvc.dll' do. 1 return. end.
+if. 0=checkaccess'' do. return. end.
+msg=. 'The graphviz binaries have not yet been installed.',LF2,'To install, '
+msg=. msg, ' run the getbin_pgraphview_'''' line written to the session.'
+smoutput '   getbin_pgraphview_'''''
+sminfo 'Graphviz';msg
+0
+)
+
+NB. =========================================================
+NB. check for needed access
+NB. uses routines from pacman
+checkaccess=: 3 : 0
+if. -.IFWIN do. 1 return. end.
+if. fexist '~addons/graphics/graphviz/bin/gvc.dll' do. 1 return. end.
+require 'pacman'
+if. testaccess_jpacman_'' do. 1 [ HASFILEACCESS_jpacman_=: 1 return. end.
+msg=. 'You need to install the graphviz libraries.  This requries access to the J directories.  Exit and restart JQT as administrator to get access to the installation folder.'
+if. IFWIN do.
+  msg=. msg,LF2,'To run as Administrator, right-click the JQT icon, select Run as... and '
+  msg=. msg,'then select Adminstrator.'
+else.
+  msg=. msg,LF2,'To run as root, open a terminal and use sudo to run J.'
+end.
+info_jpacman_ msg
+0
+)
+
+NB. =========================================================
+NB. get graphviz binaries
+NB. uses routines from pacman
+getbin=: 3 : 0
+require 'pacman'
+arg=. HTTPCMD_jpacman_
+tm=. TIMEOUT_jpacman_
+dq=. dquote_jpacman_ f.
+fm=. 'http://graphviz.gitlab.io/_pages/Download/windows/graphviz-2.38.zip'
+mkdir_j_ jpath '~temp/graphviz'
+lg=. jpath '~temp/getbin.log'
+temp=. jpath '~temp/graphviz'
+to=. temp,'/graphviz.zip'
+cmd=. arg rplc '%O';(dq to);'%L';(dq lg);'%t';'3';'%T';(":tm);'%U';fm
+res=. ''
+fail=. 0
+try.
+  fail=. _1-: res=. shellcmd_jpacman_ cmd
+catch. fail=. 1 end.
+if. fail +. 0 >: fsize to do.
+  if. _1-:msg=. freads lg do.
+    if. (_1-:msg) +. 0=#msg=. res do. msg=. 'Unexpected error' end. end.
+  ferase to;lg
+  smoutput 'Connection failed: ',msg
+  return.
+end.
+ferase lg
+mkdir_j_ tgt
+shellcmd_jpacman_ UNZIP_jpacman_,to,' -d ',temp
+dircopy_jpacman_ (temp,'/release/bin');jpath '~addons/graphics/graphviz/bin'
+dircopy_jpacman_ (temp,'/release/fonts');jpath '~addons/graphics/graphviz/fonts'
+dircopy_jpacman_ (temp,'/release/share/graphviz/graphs');jpath '~addons/graphics/graphviz/graphs'
+dircopy_jpacman_ (temp,'/release/share/graphviz/doc');jpath '~addons/graphics/graphviz/doc'
+deltree_jpacman_ jpath '~temp/graphviz'
+smoutput 'Graphviz binaries installed.'
+)
+
+checkaccess ''
 cocurrent 'base'
 
 0 : 0
 g=. graphview ''
 )
+
