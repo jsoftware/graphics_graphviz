@@ -29,5 +29,6 @@ graphviz.ijs
 help.html
 license.html
 smgraph.ijs
+progs.gv
 testsm/
 )
