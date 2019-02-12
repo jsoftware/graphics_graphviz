@@ -16,6 +16,10 @@ dot - Directed graphs
 neato - Undirected graphs
 twopi - Radial layout graphs
 circo - Circular layout graphs
+fdp - filter for drawing undirected graphs
+sfdp - filter for drawing large undirected graphs
+patchwork - filter for squarified tree maps
+osage - filter for array-based layouts
 )
 
 FORMATS=: 0 : 0
@@ -120,6 +124,7 @@ graphviz ''
 navigate 'data:,blank'
 SRCNAME=: ''
 if. LF e.y do. setshow y else. loader jpath y end.
+gvlocate''
 wd 'pshow;'
 )
 
@@ -264,6 +269,19 @@ if. *#out do.
 end.
 if. 0=fexist fname do. error 'Nothing is generated' return. end.
 navigate 'file:///',fname
+)
+
+NB. =========================================================
+gvlocate=: 3 : 0
+if. IFWIN do.
+OLDDIR=: jpath '~addons/graphics/graphviz'
+return.
+end.
+x=. spawn_jtask_ 'lsb_release -a'
+if. +/'Distributor ID:	Ubuntu' E. x do. OLDDIR=: '/usr/share/doc/graphviz/examples/graphs' 
+elseif. +/'Distributor ID:	CentOS' E. x do. OLDDIR=: '/usr/share/graphviz/graphs' 
+elseif. 1 do. OLDDIR=: jpath '~addons/graphics/graphviz'
+end.
 )
 
 NB. =========================================================
