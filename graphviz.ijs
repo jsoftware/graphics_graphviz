@@ -217,7 +217,7 @@ graphviz_dotguide_button=: navigate bind ('file:///',ADDONDIR,'/doc/dotguide.htm
 graphviz_neatoguide_button=: navigate bind ('file:///',ADDONDIR,'/doc/neatoguide.html')
 
 graphviz_proghelp_button=: 3 : 0
-navigate 'file:///',ADDONDIR,'/doc/dotman.html'
+navigate 'file:///',ADDONDIR,'/dot.html'
 )
 message=: [: navigate 'data:,'&,
 error=: [: message 'Error: '&(,^:([ -.@-: #@[ {. ]))

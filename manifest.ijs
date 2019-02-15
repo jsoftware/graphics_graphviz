@@ -15,7 +15,7 @@ Copyright 2006 (C) Oleg Kobchenko
 
 FOLDER=: 'graphics/graphviz'
 
-VERSION=: '2.0.2'
+VERSION=: '2.0.3'
 
 RELEASE=: ''
 
@@ -30,5 +30,6 @@ help.html
 license.html
 smgraph.ijs
 progs.gv
+dot.html
 testsm/
 )
