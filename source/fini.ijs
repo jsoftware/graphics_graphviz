@@ -1,5 +1,6 @@
 NB. fini
 
+checkaccess ''
 cocurrent 'base'
 
 0 : 0

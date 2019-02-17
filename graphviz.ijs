@@ -270,21 +270,14 @@ end.
 if. 0=fexist fname do. error 'Nothing is generated' return. end.
 navigate 'file:///',fname
 )
-
-NB. =========================================================
 gvlocate=: 3 : 0
-if. IFWIN do.
-OLDDIR=: jpath '~addons/graphics/graphviz'
-return.
-end.
-x=. spawn_jtask_ 'lsb_release -a'
-if. +/'Distributor ID:	Ubuntu' E. x do. OLDDIR=: '/usr/share/doc/graphviz/examples/graphs' 
-elseif. +/'Distributor ID:	CentOS' E. x do. OLDDIR=: '/usr/share/graphviz/graphs' 
+if. IFWIN do. OLDDIR=: jpath '~addons/graphics/graphviz'
+elseif. UNAME-:'Darwin' do. OLDDIR=:'/usr/local/share/graphviz'
+elseif. +/'Ubuntu' E. spawn_jtask_'uname -a' do. OLDDIR=: '/usr/share/doc/graphviz/examples/graphs' 
+elseif. +/'CentOS' E. 'lsb_release -a' do. OLDDIR=: '/usr/share/graphviz/graphs'
 elseif. 1 do. OLDDIR=: jpath '~addons/graphics/graphviz'
 end.
 )
-
-NB. =========================================================
 checklibrary=: 3 : 0
 if. -.IFWIN do. 1 return. end.
 if. fexist '~addons/graphics/graphviz/bin/gvc.dll' do. 1 return. end.
@@ -295,10 +288,6 @@ smoutput '   getbin_pgraphview_'''''
 sminfo 'Graphviz';msg
 0
 )
-
-NB. =========================================================
-NB. check for needed access
-NB. uses routines from pacman
 checkaccess=: 3 : 0
 if. -.IFWIN do. 1 return. end.
 if. fexist '~addons/graphics/graphviz/bin/gvc.dll' do. 1 return. end.
@@ -314,10 +303,6 @@ end.
 info_jpacman_ msg
 0
 )
-
-NB. =========================================================
-NB. get graphviz binaries
-NB. uses routines from pacman
 getbin=: 3 : 0
 require 'pacman'
 arg=. HTTPCMD_jpacman_
@@ -351,11 +336,9 @@ dircopy_jpacman_ (temp,'/release/share/graphviz/doc');jpath '~addons/graphics/gr
 deltree_jpacman_ jpath '~temp/graphviz'
 smoutput 'Graphviz binaries installed.'
 )
-
 checkaccess ''
 cocurrent 'base'
 
 0 : 0
 g=. graphview ''
 )
-

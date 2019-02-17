@@ -3,6 +3,10 @@ dot - Directed graphs
 neato - Undirected graphs
 twopi - Radial layout graphs
 circo - Circular layout graphs
+fdp - filter for drawing undirected graphs
+sfdp - filter for drawing large undirected graphs
+patchwork - filter for squarified tree maps
+osage - filter for array-based layouts
 )
 
 FORMATS=: 0 : 0
