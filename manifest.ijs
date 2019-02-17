@@ -15,7 +15,7 @@ Copyright 2006 (C) Oleg Kobchenko
 
 FOLDER=: 'graphics/graphviz'
 
-VERSION=: '2.0.6'
+VERSION=: '2.0.7'
 
 RELEASE=: ''
 
