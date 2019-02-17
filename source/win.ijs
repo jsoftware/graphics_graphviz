@@ -213,8 +213,8 @@ NB. =========================================================
 gvlocate=: 3 : 0
 if. IFWIN do. OLDDIR=: jpath '~addons/graphics/graphviz'
 elseif. UNAME-:'Darwin' do. OLDDIR=:'/usr/local/share/graphviz'
-elseif. +/'Ubuntu' E. spawn_jtask_'uname -a' do. OLDDIR=: '/usr/share/doc/graphviz/examples/graphs' 
-elseif. +/'CentOS' E. 'lsb_release -a' do. OLDDIR=: '/usr/share/graphviz/graphs'
+elseif. +/'Ubuntu' E. spawn_jtask_'uname -a' do. OLDDIR=: '/usr/share/doc/graphviz/examples/graphs'
+elseif. +/'CentOS' E. spawn_jtask_'lsb_release -a' do. OLDDIR=: '/usr/share/graphviz/graphs'
 elseif. 1 do. OLDDIR=: jpath '~addons/graphics/graphviz'
 end.
 )
