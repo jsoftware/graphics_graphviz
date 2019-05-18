@@ -5,7 +5,7 @@ NB.   - empty values use ',', possibility to strip
 
 coclass 'pcsv'
 
-require '~addons/graphviz/smgraph.ijs'
+require '~addons/graphics/graphviz/smgraph.ijs'
 
 mj=: a.e.',;|'
 

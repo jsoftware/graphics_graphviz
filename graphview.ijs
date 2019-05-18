@@ -1,3 +1,3 @@
 NB. graphview - cover for graphviz
 
-require 'graphics/graphviz/graphviz.ijs'
+require '~addons/graphics/graphviz/graphviz.ijs'

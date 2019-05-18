@@ -5,7 +5,7 @@ NB.   - incomplete, need i=:_1
 
 coclass 'phex'
 
-require '~addons/graphviz/smgraph.ijs'
+require '~addons/graphics/graphviz/smgraph.ijs'
 
 mj=: 256$0                              NB. Z other
 mj=: 1 (a.i.'x')}mj                     NB. 'x'

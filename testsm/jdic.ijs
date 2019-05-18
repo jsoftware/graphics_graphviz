@@ -1,6 +1,6 @@
 coclass 'pjsent'
 
-require '~addons/graphviz/smgraph.ijs'
+require '~addons/graphics/graphviz/smgraph.ijs'
 
 mj=: 256$0                     NB. X other
 mj=: 1 (a.i.' ')}mj            NB. S space

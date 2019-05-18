@@ -1,6 +1,6 @@
 coclass 'pjsent'
 
-require '~addons/graphviz/smgraph.ijs'
+require '~addons/graphics/graphviz/smgraph.ijs'
 
 mjx=: ' ';(a.{~,65 97+/i.26);'0123456789_';'.';':';''''
 t=. 0 7 2$0

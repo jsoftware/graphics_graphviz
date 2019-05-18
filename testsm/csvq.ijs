@@ -5,7 +5,7 @@ NB.   - strip quotes
 
 coclass 'pcsv'
 
-require '~addons/graphviz/smgraph.ijs'
+require '~addons/graphics/graphviz/smgraph.ijs'
 
 mj=: 2-'",'i.a.  NB. X:0, C:1, Q:2
 

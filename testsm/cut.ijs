@@ -1,6 +1,6 @@
 coclass 'pcut'
 
-require '~addons/graphviz/smgraph.ijs'
+require '~addons/graphics/graphviz/smgraph.ijs'
 
 mc=: ' '=a.
 
