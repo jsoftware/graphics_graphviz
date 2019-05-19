@@ -4,7 +4,7 @@ require '~addons/graphics/graphviz/smgraph.ijs'
 
 mj=: 256$0                     NB. X other
 mj=: 1 (a.i.' ')}mj            NB. S space
-mj=: 2 ((a.i.'Aa')+/i.26)}mj   NB. A A-Z a-z excluding N B
+mj=: 2 (,(a.i.'Aa')+/i.26)}mj   NB. A A-Z a-z excluding N B - modified for beta
 mj=: 3 (a.i.'N')}mj            NB. N the letter N
 mj=: 4 (a.i.'B')}mj            NB. B the letter B
 mj=: 5 (a.i.'0123456789_')}mj  NB. 9 digits and _
