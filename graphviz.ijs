@@ -258,6 +258,7 @@ else.
   ferase fname
   PROG=: selitem prog
   y fwrite tf
+  if. UNAME-:'Darwin' do. PROG=: '/usr/local/bin/',PROG end.
   spawn_jtask_,PROG,' ',cmdline
   out=. fread tf,'.out'
   ferase tf
