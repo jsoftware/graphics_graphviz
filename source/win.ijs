@@ -212,7 +212,12 @@ navigate 'file:///',fname
 NB. =========================================================
 gvlocate=: 3 : 0
 if. IFWIN do. OLDDIR=: jpath '~addons/graphics/graphviz'
-elseif. UNAME-:'Darwin' do. OLDDIR=:'/usr/local/share/graphviz'
+elseif. UNAME-:'Darwin' do.
+  if. (9!:56'cpu')-:'arm64' do.
+    OLDDIR=:'/opt/homebrew/share/graphviz/graphs'
+  else.
+    OLDDIR=:'/usr/local/share/graphviz/graphs'
+  end.
 elseif. +/'Ubuntu' E. spawn_jtask_'uname -a' do. OLDDIR=: '/usr/share/doc/graphviz/examples/graphs'
 elseif. +/'CentOS' E. spawn_jtask_'lsb_release -a' do. OLDDIR=: '/usr/share/graphviz/graphs'
 elseif. 1 do. OLDDIR=: jpath '~addons/graphics/graphviz'
@@ -277,7 +282,6 @@ if. fail +. 0 >: fsize to do.
   return.
 end.
 ferase lg
-mkdir_j_ tgt
 shellcmd_jpacman_ UNZIP_jpacman_,to,' -d ',temp
 dircopy_jpacman_ (temp,'/release/bin');jpath '~addons/graphics/graphviz/bin'
 dircopy_jpacman_ (temp,'/release/fonts');jpath '~addons/graphics/graphviz/fonts'
