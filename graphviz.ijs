@@ -1,7 +1,7 @@
 coclass 'pgraphview'
 
 TITLE=: 'Graph View'
-TEMPFILE=: 'graphview'
+TEMPFILE=: 'graphview_'
 TEMPDIR=: jpath '~temp'
 ADDONDIR=: jpath '~addons/graphics/graphviz'
 FILTER=: IFWIN pick ('Graph File .gv (*.gv)|Graph File .dot (*.dot)|All Files (*.*)');'Graph File (*.gv)|Graph File (*.dot)|All Files (*.*)'
@@ -74,15 +74,16 @@ WD=: 0 : 0
 pc graphviz;
 bin v;
 bin h;
- cc Addr static;cn "Address";
- cc turl edit;
- cc gvmsglab static;cn "Message";
- cc gvmsg edit;
- cc Go button;cn "Go";
-bin z;
-bin h;
- bin h;
-  splith;
+ splitv;
+  cc wv webview;
+  splitsep;
+  bin h;
+   cc Addr static;cn "File ";
+   cc turl edit;
+   cc gvmsglab static;cn " Message "; NB. what is it for?
+   cc gvmsg edit;
+   cc Generate button;cn "Generate ☝︎";
+  bin z;
   cc sels tab;
 
   tabnew Source;
@@ -91,7 +92,7 @@ bin h;
   tabnew Options;
    bin v;
     bin h;
-     cc Prog static;cn "Program";
+     cc Prog static;cn "Program ";
      cc prog combobox;
      cc proghelp button;cn "?";
      bin s;
@@ -105,10 +106,7 @@ bin h;
    bin z;
    bin s;
   tabend;
-
- bin z;
- splitsep;
- cc wv webview;
+  
  splitend;
 bin z;
 bin z;
@@ -153,7 +151,7 @@ wd'menusep'
 wd'menu close "Close"'
 wd'menupopz'
 wd 'menupop "View"'
-wd'menu go "Go" "Ctrl+F5"'
+wd'menu generate "Generate" "Ctrl+F5"'
 wd'menupopz'
 wd 'menupop "Help"'
 wd'menu help "Contents" "Ctrl+F1"'
@@ -162,10 +160,7 @@ wd'menusep'
 wd'menu about "About"'
 wd'menupopz'
 
-wd 'set gvmsg sizepolicy expanding fixed'
-wd 'set sels sizepolicy preferred'
-wd 'set wv sizepolicy expanding'
-wd 'set src wrap 0'
+wd 'set wv minwh 500 500'
 
 astext=: ,'0'
 ndxp=. 'dot' ndx PROGRAMS
@@ -198,15 +193,15 @@ end.
 )
 
 graphviz_clean_button=: 3 : 0
-r=. ":+/0>.ferase fpaths jpath'~temp/graphview.*'
+r=. ":+/0>.ferase fpaths jpath'~temp/graphview_*'
 wdinfo 'Cleaning ...';'Erased ',r,' temporary file(s)'
 )
 
-graphviz_go_button=: 3 : 0
+graphviz_generate_button=: 3 : 0
 show src
 )
 
-graphviz_Go_button=: graphviz_go_button
+graphviz_Generate_button=: graphviz_generate_button
 
 graphviz_about_button=: navigate bind ('file:///',ADDONDIR,'/about.html')
 graphviz_help_button=: navigate bind ('file:///',ADDONDIR,'/help.html')
@@ -246,7 +241,7 @@ wd 'set gvmsg text ""'
 if. 0=#y do. error 'Blank input' return. end.
 FMT=: selitem fmt
 ASTEXT=. ('1'-:{.astext)#'.txt'
-fname=. TEMPDIR,'/',TEMPFILE,'.',FMT,ASTEXT
+fname=. TEMPDIR,'/',TEMPFILE,(": ? 1e6),'.',FMT,ASTEXT
 if. IFWIN do.
   cmdline=. '-T',FMT,' -o',unixpath fname
   ferase fname
