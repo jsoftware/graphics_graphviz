@@ -80,7 +80,7 @@ bin h;
   bin h;
    cc Addr static;cn "File ";
    cc turl edit;
-   cc gvmsglab static;cn " Message "; NB. what is it for?
+   cc gvmsglab static;cn " Message ";
    cc gvmsg edit;
    cc Generate button;cn "Generate ☝︎";
   bin z;
