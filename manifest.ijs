@@ -13,7 +13,7 @@ Based on Graphviz from http://www.graphviz.org/
 
 FOLDER=: 'graphics/graphviz'
 
-VERSION=: '2.0.15'
+VERSION=: '2.0.16'
 
 RELEASE=: ''
 
