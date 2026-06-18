@@ -9,13 +9,11 @@ sequential machines (finite automata) in testsm folder.
 See help.html for furter details.
 See also companion cluster analysis Essays/Dendrite on J Wiki.
 Based on Graphviz from http://www.graphviz.org/
-
-Copyright 2006 (C) Oleg Kobchenko
 )
 
 FOLDER=: 'graphics/graphviz'
 
-VERSION=: '2.0.14'
+VERSION=: '2.0.15'
 
 RELEASE=: ''
 

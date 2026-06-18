@@ -4,40 +4,40 @@ WD=: 0 : 0
 pc graphviz;
 bin v;
 bin h;
- splitv;
-  cc wv webview;
-  splitsep;
-  bin h;
-   cc Addr static;cn "File ";
-   cc turl edit;
-   cc gvmsglab static;cn " Message ";
-   cc gvmsg edit;
-   cc Generate button;cn "Generate ☝︎";
-  bin z;
-  cc sels tab;
+splitv;
+ cc wv webview;
+ splitsep;
+ bin h;
+  cc Addr static;cn "File ";
+  cc turl edit;
+  cc gvmsglab static;cn " Message ";
+  cc gvmsg edit;
+  cc Generate button;cn "Generate ☝︎";
+ bin z;
+ cc sels tab;
 
-  tabnew Source;
-   cc src editm;
+ tabnew Source;
+  cc src editm;
 
-  tabnew Options;
-   bin v;
-    bin h;
-     cc Prog static;cn "Program ";
-     cc prog combobox;
-     cc proghelp button;cn "?";
-     bin s;
-    bin z;
-    bin h;
-     cc OutForm static;cn "Output Format ";
-     cc astext checkbox;cn "As Text";
-     bin s;
-    bin z;
-    cc fmt combobox;
+ tabnew Options;
+  bin v;
+   bin h;
+    cc Prog static;cn "Program ";
+    cc prog combobox;
+    cc proghelp button;cn "?";
+    bin s;
    bin z;
-   bin s;
-  tabend;
-  
- splitend;
+   bin h;
+    cc OutForm static;cn "Output Format ";
+    cc astext checkbox;cn "As Text";
+    bin s;
+   bin z;
+   cc fmt combobox;
+  bin z;
+  bin s;
+ tabend;
+
+splitend;
 bin z;
 bin z;
 )
@@ -70,8 +70,6 @@ wd 'set wv url ',fixsl y
 if. 'data:'-:5{.y do. y=. 'data:' end.
 wd 'set turl text "',(fixsl y),'"'
 )
-
-NB. =========================================================
 graphviz=: 3 : 0
 wd WD
 wd 'menupop "File"'
@@ -88,12 +86,6 @@ wd'menupopz'
 wd 'menupop "Help"'
 wd'menu help "Contents" "Ctrl+F1"'
 wd'menu helplic "License"'
-NB. not yet in J8
-NB. wd'menu helpsm "Sequential Machine Legend"'
-NB. wd'menu helpsmlab "Sequential Machine Lab"'
-NB. wd'menusep'
-NB. wd'menu dotguide "Dot Guide"'
-NB. wd'menu neatoguide "Neato Guide"'
 wd'menusep'
 wd'menu about "About"'
 wd'menupopz'
@@ -125,8 +117,8 @@ graphview''
 graphviz_open_button=: 3 : 0
 fname=. wd'mb open1 "Open Graph File" "',OLDDIR,'" "',FILTER,'"'
 if. *#fname do.
-  loader fname
-  OLDDIR=: (( ]i:&PATHSEP){. ])fname
+ loader fname
+ OLDDIR=: (( ]i:&PATHSEP){. ])fname
 end.
 )
 
@@ -181,52 +173,48 @@ FMT=: selitem fmt
 ASTEXT=. ('1'-:{.astext)#'.txt'
 fname=. TEMPDIR,'/',TEMPFILE,(": ? 1e6),'.',FMT,ASTEXT
 if. IFWIN do.
-  cmdline=. '-T',FMT,' -o',unixpath fname
-  ferase fname
-  PROG=: selitem prog
-  out=. y spawn_jtask_ ADDONDIR,'\bin\',PROG,' ',cmdline
+ cmdline=. '-T',FMT,' -o',unixpath fname
+ ferase fname
+ PROG=: selitem prog
+ out=. y spawn_jtask_ ADDONDIR,'\bin\',PROG,' ',cmdline
 else.
-  tf=. TEMPDIR,'/gv',((-.@e.&' .')#])":6!:0''
-  cmdline=. '-T',FMT,' -o',(unixpath fname),' "',tf,'" 2>"',tf,'.out"'
-  ferase fname
-  PROG=: selitem prog
-  y fwrite tf
-  if. UNAME-:'Darwin' do.
-    if. (9!:56'cpu')-:'arm64' do.
-      PROG=: '/opt/homebrew/bin/',PROG
-    else.
-      PROG=: '/usr/local/bin/',PROG
-    end.
-  end.
-  spawn_jtask_,PROG,' ',cmdline
-  out=. fread tf,'.out'
-  ferase tf
-  ferase tf,'.out'
+ tf=. TEMPDIR,'/gv',((-.@e.&' .')#])":6!:0''
+ cmdline=. '-T',FMT,' -o',(unixpath fname),' "',tf,'" 2>"',tf,'.out"'
+ ferase fname
+ PROG=: selitem prog
+ y fwrite tf
+ if. UNAME-:'Darwin' do.
+   if. (9!:56'cpu')-:'arm64' do.
+     PROG=: '/opt/homebrew/bin/',PROG
+   else.
+     PROG=: '/usr/local/bin/',PROG
+   end.
+ end.
+ spawn_jtask_,PROG,' ',cmdline
+ out=. fread tf,'.out'
+ ferase tf
+ ferase tf,'.out'
 end.
 if. *#out do.
-  wd 'set gvmsg text "',out,'"'
-  if. 0=+/'WARNING' E. toupper out do. return. end.
+ wd 'set gvmsg text "',out,'"'
+ if. 0=+/'WARNING' E. toupper out do. return. end.
 end.
 if. 0=fexist fname do. error 'Nothing is generated' return. end.
 navigate 'file:///',fname
 )
-
-NB. =========================================================
 gvlocate=: 3 : 0
 if. IFWIN do. OLDDIR=: jpath '~addons/graphics/graphviz'
 elseif. UNAME-:'Darwin' do.
-  if. (9!:56'cpu')-:'arm64' do.
-    OLDDIR=:'/opt/homebrew/share/graphviz/graphs'
-  else.
-    OLDDIR=:'/usr/local/share/graphviz/graphs'
-  end.
+ if. (9!:56'cpu')-:'arm64' do.
+   OLDDIR=:'/opt/homebrew/share/graphviz/graphs'
+ else.
+   OLDDIR=:'/usr/local/share/graphviz/graphs'
+ end.
 elseif. +/'Ubuntu' E. spawn_jtask_'uname -a' do. OLDDIR=: '/usr/share/doc/graphviz/examples/graphs'
 elseif. +/'CentOS' E. spawn_jtask_'lsb_release -a' do. OLDDIR=: '/usr/share/graphviz/graphs'
 elseif. 1 do. OLDDIR=: jpath '~addons/graphics/graphviz'
 end.
 )
-
-NB. =========================================================
 checklibrary=: 3 : 0
 if. -.IFWIN do. 1 return. end.
 if. fexist '~addons/graphics/graphviz/bin/gvc.dll' do. 1 return. end.
@@ -237,10 +225,6 @@ smoutput '   getbin_pgraphview_'''''
 sminfo 'Graphviz';msg
 0
 )
-
-NB. =========================================================
-NB. check for needed access
-NB. uses routines from pacman
 checkaccess=: 3 : 0
 if. -.IFWIN do. 1 return. end.
 if. fexist '~addons/graphics/graphviz/bin/gvc.dll' do. 1 return. end.
@@ -248,24 +232,20 @@ require 'pacman'
 if. testaccess_jpacman_'' do. 1 [ HASFILEACCESS_jpacman_=: 1 return. end.
 msg=. 'You need to install the graphviz libraries.  This requries access to the J directories.  Exit and restart JQT as administrator to get access to the installation folder.'
 if. IFWIN do.
-  msg=. msg,LF2,'To run as Administrator, right-click the JQT icon, select Run as... and '
-  msg=. msg,'then select Adminstrator.'
+ msg=. msg,LF2,'To run as Administrator, right-click the JQT icon, select Run as... and '
+ msg=. msg,'then select Adminstrator.'
 else.
-  msg=. msg,LF2,'To run as root, open a terminal and use sudo to run J.'
+ msg=. msg,LF2,'To run as root, open a terminal and use sudo to run J.'
 end.
 info_jpacman_ msg
 0
 )
-
-NB. =========================================================
-NB. get graphviz binaries
-NB. uses routines from pacman
 getbin=: 3 : 0
 require 'pacman'
 arg=. HTTPCMD_jpacman_
 tm=. TIMEOUT_jpacman_
 dq=. dquote_jpacman_ f.
-fm=. 'http://graphviz.gitlab.io/_pages/Download/windows/graphviz-2.38.zip'
+fm=. 'https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/15.0.0/windows_10_cmake_Release_Graphviz-15.0.0-win64.zip'
 mkdir_j_ jpath '~temp/graphviz'
 lg=. jpath '~temp/getbin.log'
 temp=. jpath '~temp/graphviz'
@@ -274,21 +254,21 @@ cmd=. arg rplc '%O';(dq to);'%L';(dq lg);'%t';'3';'%T';(":tm);'%U';fm
 res=. ''
 fail=. 0
 try.
-  fail=. _1-: res=. shellcmd_jpacman_ cmd
+ fail=. _1-: res=. shellcmd_jpacman_ cmd
 catch. fail=. 1 end.
 if. fail +. 0 >: fsize to do.
-  if. _1-:msg=. freads lg do.
-    if. (_1-:msg) +. 0=#msg=. res do. msg=. 'Unexpected error' end. end.
-  ferase to;lg
-  smoutput 'Connection failed: ',msg
-  return.
+ if. _1-:msg=. freads lg do.
+   if. (_1-:msg) +. 0=#msg=. res do. msg=. 'Unexpected error' end. end.
+ ferase to;lg
+ smoutput 'Connection failed: ',msg
+ return.
 end.
 ferase lg
 shellcmd_jpacman_ UNZIP_jpacman_,to,' -d ',temp
-dircopy_jpacman_ (temp,'/release/bin');jpath '~addons/graphics/graphviz/bin'
-dircopy_jpacman_ (temp,'/release/fonts');jpath '~addons/graphics/graphviz/fonts'
-dircopy_jpacman_ (temp,'/release/share/graphviz/graphs');jpath '~addons/graphics/graphviz/graphs'
-dircopy_jpacman_ (temp,'/release/share/graphviz/doc');jpath '~addons/graphics/graphviz/doc'
+dircopy_jpacman_ (temp,'/Graphviz-15.0.0-win64/bin');jpath '~addons/graphics/graphviz/bin'
+dircopy_jpacman_ (temp,'/Graphviz-15.0.0-win64/fonts');jpath '~addons/graphics/graphviz/fonts'
+dircopy_jpacman_ (temp,'/Graphviz-15.0.0-win64/share/graphviz/graphs');jpath '~addons/graphics/graphviz/graphs'
+dircopy_jpacman_ (temp,'/Graphviz-15.0.0-win64/share/graphviz/doc');jpath '~addons/graphics/graphviz/doc'
 deltree_jpacman_ jpath '~temp/graphviz'
 smoutput 'Graphviz binaries installed.'
 )
