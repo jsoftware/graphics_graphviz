@@ -90,7 +90,7 @@ wd'menusep'
 wd'menu about "About"'
 wd'menupopz'
 
-wd 'set wv minwh 500 500'
+wd 'set wv minwh 500 300'
 
 astext=: ,'0'
 ndxp=. 'dot' ndx PROGRAMS
